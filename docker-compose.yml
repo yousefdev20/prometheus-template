@@ -1,0 +1,29 @@
+version: '3.3'
+services:
+  prometheus:
+    image: 'prom/prometheus:v2.47.1'
+    ports:
+      - '9090:9090'
+    volumes:
+      - './docker/prometheus.yml:/etc/prometheus/prometheus.yml'
+      - 'prometheus:/prometheus'
+    networks:
+      - monitor
+
+  grafana:
+    image: 'grafana/grafana:10.1.4-ubuntu'
+    ports:
+      - '3000:3000'
+    volumes:
+      - 'grafana:/var/lib/grafana'
+    networks:
+      - monitor
+
+networks:
+  monitor:
+    driver: bridge
+volumes:
+  grafana:
+    driver: local
+  prometheus:
+    driver: local
